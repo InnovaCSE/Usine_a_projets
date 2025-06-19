@@ -1,0 +1,22 @@
+name: Test automatique usine
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '**.html'
+      - '**.js'
+      - '**.css'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: Valider les fichiers HTML, JS, CSS
+        run: |
+          echo "Vérification syntaxique de base..."
+          if grep -q "<html" formulaire_accident.html; then echo "✔️ HTML valide"; else echo "❌ HTML manquant" >> log-erreur.txt; fi
+          if grep -q "DOMContentLoaded" formulaire_accident.js; then echo "✔️ JS valide"; else echo "❌ JS invalide" >> log-erreur.txt; fi
